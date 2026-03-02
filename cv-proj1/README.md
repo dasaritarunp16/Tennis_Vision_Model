@@ -72,6 +72,28 @@ Shots are detected by finding direction reversals in the ball's y-coordinate tra
 ### Zone classification
 Each shot landing is classified into one of 10 zones: deuce/ad service boxes, deuce/ad backcourt (near and far side), and left/right alleys. The final zone uses a fusion of ball landing position and receiving player position (60/40 weighting).
 
+## Sample outputs
+
+### Annotated video frame
+![Annotated video frame](images/image1.jpg)
+
+A frame from the output video showing all detections overlaid on the broadcast feed. YOLO bounding boxes label each player with a tracking ID, the ball is marked with its own ID, and the 14 court keypoints (numbered 0–13) are drawn at their detected positions. This is what `output_video/output.mp4` looks like frame-by-frame.
+
+### Shot detection log
+![Shot detection log](images/image2.png)
+
+Console output from the pipeline showing 7 detected shots. For each shot the log lists the start, mid, and end frames with their real-world court coordinates (in meters), the zone classification at each stage, and the final landing zone after fusing ball position with receiving player position.
+
+### Shot 1 — top-down trajectory
+![Shot 1 trajectory](images/image3.png)
+
+Top-down court diagram for Shot 1 (frames 29–46). The orange line traces the ball's path frame-by-frame, the blue dot marks where the shot started (far baseline), and the red dot marks where it landed (near ad service box). Each numbered point corresponds to a video frame.
+
+### Shot 2 — top-down trajectory
+![Shot 2 trajectory](images/image4.png)
+
+Top-down court diagram for Shot 2 (frames 49–74). The ball travels from the near baseline (blue dot) cross-court to the far ad backcourt (red dot). The trajectory shows the ball moving diagonally across the court, demonstrating the homography mapping from pixel space to real-world court coordinates.
+
 ## Running it
 
 ```bash
