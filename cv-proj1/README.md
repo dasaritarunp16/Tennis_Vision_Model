@@ -74,25 +74,47 @@ Each shot landing is classified into one of 10 zones: deuce/ad service boxes, de
 
 ## Sample outputs
 
-### Annotated video frame
+### Image 1: Annotated video frame
 ![Annotated video frame](images/image1.jpg)
 
-A frame from the output video showing all detections overlaid on the broadcast feed. YOLO bounding boxes label each player with a tracking ID, the ball is marked with its own ID, and the 14 court keypoints (numbered 0–13) are drawn at their detected positions. This is what `output_video/output.mp4` looks like frame-by-frame.
+A single frame from the output video captured during an ATP Tennis TV broadcast of a Djokovic match at the Vienna Open on a blue hard court. The pipeline overlays all detections on the original broadcast feed:
+- **Player detection**: YOLO bounding boxes drawn around each detected person with red rectangles and yellow text labels — Player ID: 52 (far-left sideline), Player ID: 40 (far baseline), Player ID: 136 (near-court, mid-rally stance), and additional players/ball kids on the edges.
+- **Ball detection**: The tennis ball is identified near center court and labeled "Ball ID: 1" in yellow text.
+- **Court keypoints**: All 14 keypoints (numbered 0–13) are plotted as red dots at their detected court-line intersections — points 2, 5 on the near-left baseline, points 4, 6, 8, 12, 9 across the far service line and baseline, points 10, 13, 11 on the near service line, and corners 1, 3 on the right side.
+- **Performance overlay**: The right side shows real-time stats including 99% FPS, GPU utilization, GPU temperature, memory clock, and CPU usage.
+- The broadcast scoreboard at the bottom reads "Djokovic 1 15".
 
-### Shot detection log
+### Image 2: Shot detection log (console output)
 ![Shot detection log](images/image2.png)
 
-Console output from the pipeline showing 7 detected shots. For each shot the log lists the start, mid, and end frames with their real-world court coordinates (in meters), the zone classification at each stage, and the final landing zone after fusing ball position with receiving player position.
+Terminal console output from the pipeline after processing 300 frames. The log reports "Shots detected: 7" and then lists each shot with full detail:
+- **Shot 1** (frames 29–46): Starts at (4.70, 1.15) in far_middle_backcourt, ends at (1.65, 17.92) in near_ad_service_box. Player position at (2.31, 23.36) in near_ad_backcourt. Final zone after 60/40 fusion: **near_ad_service_box**.
+- **Shot 2** (frames 49–74): Starts at (2.22, 15.44) in near_ad_service_box, ends at (6.87, 1.44) in far_ad_backcourt. Player at (8.27, 0.40) in far_ad_backcourt. Final: **far_ad_backcourt**.
+- **Shot 3** (frames 89–119): Starts at (5.34, 0.39) in far_middle_backcourt, ends at (1.31, 21.41) in left_alley. Final: **left_alley**.
+- **Shot 4** (frames 123–147): Starts at (1.51, 16.73) in near_ad_service_box, ends at (4.07, 0.46) in far_deuce_backcourt. Final: **far_deuce_backcourt**.
+- **Shot 5** (frames 162–190): Starts at (3.56, 1.04) in far_deuce_backcourt, ends at (2.92, 22.55) in near_ad_backcourt. Final: **near_ad_backcourt**.
+- **Shot 6** (frames 194–220): Starts at (3.48, 16.99) in near_ad_service_box, ends at (6.47, 0.46) in far_middle_backcourt. Final: **far_middle_backcourt**.
+- **Shot 7** (frames 257–272): Starts at (4.53, 0.99) in far_middle_backcourt, ends at (3.39, 14.78) in near_ad_service_box. Player at (4.31, 23.38) in near_ad_backcourt. Final: **near_ad_service_box**.
 
-### Shot 1 — top-down trajectory
+GPU monitoring stats are visible on the right side (35°C, 0 RPM fan, 825 mV, 84 MHz memory clock, 4% CPU utilization).
+
+### Image 3: Shot 1 — top-down court trajectory
 ![Shot 1 trajectory](images/image3.png)
 
-Top-down court diagram for Shot 1 (frames 29–46). The orange line traces the ball's path frame-by-frame, the blue dot marks where the shot started (far baseline), and the red dot marks where it landed (near ad service box). Each numbered point corresponds to a video frame.
+Top-down court diagram for Shot 1, spanning frames 29 to 46. The green rectangle represents the full tennis court with white service lines, baselines, and sidelines drawn to scale.
+- **Blue dot** (top-center, frame 29): The shot origin at the far middle backcourt.
+- **Orange trajectory line**: The ball's frame-by-frame path, with each point numbered (29, 30, 31, 32, 33, 34, 35, 36, 37, 42, 46). The ball travels from the far baseline downward and slightly to the left, curving through the center of the court.
+- **Red dot** (bottom-left, frame 46): The shot landing point near the ad-side baseline (near_ad_service_box).
+- **White straight line**: A direct line connecting start to end, showing the overall shot direction — a deep approach shot from the far baseline to the near ad side.
 
-### Shot 2 — top-down trajectory
+### Image 4: Shot 2 — top-down court trajectory
 ![Shot 2 trajectory](images/image4.png)
 
-Top-down court diagram for Shot 2 (frames 49–74). The ball travels from the near baseline (blue dot) cross-court to the far ad backcourt (red dot). The trajectory shows the ball moving diagonally across the court, demonstrating the homography mapping from pixel space to real-world court coordinates.
+Top-down court diagram for Shot 2, spanning frames 46 to 74. Same green court layout as Shot 1.
+- **Blue dot** (bottom-left, frame 46): The shot origin near the ad-side baseline (near_ad_service_box), where Shot 1 landed.
+- **Orange trajectory line**: The ball's frame-by-frame path moving diagonally cross-court from bottom-left to top-right. Points are numbered along the path (46, 48, 49, 50, 52, 53, 54, 55, 56, 57, 58, 60, 61, 62, 63, 64, 71, 72, 74), showing the ball accelerating through the middle of the court.
+- **Red dot** (top-right, frame 74): The shot landing point in the far ad backcourt.
+- **White straight line**: Direct line from start to end, highlighting the cross-court angle of this return shot — traveling from the near-left baseline diagonally to the far-right backcourt.
 
 ## Running it
 
