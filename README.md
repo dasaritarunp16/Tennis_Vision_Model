@@ -54,8 +54,7 @@ A single frame from the output video captured during an ATP Tennis TV broadcast 
 - **Player detection**: YOLO bounding boxes drawn around each detected person with red rectangles and yellow text labels — Player ID: 52 (far-left sideline), Player ID: 40 (far baseline), Player ID: 136 (near-court, mid-rally stance), and additional players/ball kids on the edges.
 - **Ball detection**: The tennis ball is identified near center court and labeled "Ball ID: 1" in yellow text.
 - **Court keypoints**: All 14 keypoints (numbered 0–13) are plotted as red dots at their detected court-line intersections — points 2, 5 on the near-left baseline, points 4, 6, 8, 12, 9 across the far service line and baseline, points 10, 13, 11 on the near service line, and corners 1, 3 on the right side.
-- **Performance overlay**: The right side shows real-time stats including 99% FPS, GPU utilization, GPU temperature, memory clock, and CPU usage.
-- The broadcast scoreboard at the bottom reads "Djokovic 1 15".
+
 
 <img width="1696" height="753" alt="image" src="https://github.com/user-attachments/assets/bfb1a7b8-c181-4488-9abd-0441bc12a477" />
 
