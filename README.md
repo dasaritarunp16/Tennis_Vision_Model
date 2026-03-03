@@ -82,3 +82,10 @@ Top-down court diagram for Shot 2, spanning frames 46 to 74. Same green court la
 cd cv-proj1
 python main.py
 
+
+Dependencies
+PyTorch
+OpenCV (cv2)
+NumPy
+Matplotlib
+Ultralytics (YOLO)
