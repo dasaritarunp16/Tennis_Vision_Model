@@ -1,0 +1,35 @@
+import cv2
+import os
+
+def read(video_path, max_frames=300, start_time=0):
+    cap = cv2.VideoCapture(video_path)
+    if start_time > 0:
+        cap.set(cv2.CAP_PROP_POS_MSEC, start_time * 1000)
+    frames = []
+    count = 0
+    while count < max_frames:
+        reg, frame = cap.read()
+        if reg:
+            frames.append(frame)
+            count += 1
+        else:
+           break
+    cap.release()
+    return frames
+
+def save(output_frames, output_path):
+    if len(output_frames) == 0:
+        print("No frames to save")
+        return
+    
+
+    os.makedirs(os.path.dirname(output_path), exist_ok=True)
+    
+    height, width = output_frames[0].shape[:2]
+    fourcc = cv2.VideoWriter_fourcc(*'mp4v')
+    out = cv2.VideoWriter(output_path, fourcc, 24, (width, height))
+    
+    for frame in output_frames:
+        out.write(frame)
+    out.release()
+    print(f"Video saved to {output_path}")
